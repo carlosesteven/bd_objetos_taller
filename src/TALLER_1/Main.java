@@ -1,5 +1,8 @@
-import Objetos.Jugadores;
-import Objetos.Paises;
+package TALLER_1;
+
+import EJEMPLO_1.Objetos.Persona;
+import TALLER_1.Objetos.Jugadores;
+import TALLER_1.Objetos.Paises;
 import org.neodatis.odb.ODB;
 import org.neodatis.odb.ODBFactory;
 import org.neodatis.odb.Objects;
@@ -8,7 +11,29 @@ public class Main {
 
     private static final String ODB_NAME = "BD_taller.neodatis";
 
+    private static void borrarBaseDatosActual()
+    {
+        Objects objects;
+
+        // Open the database
+        ODB odb = null;
+
+        try {
+            odb = ODBFactory.open(ODB_NAME);
+            objects = odb.getObjects(Persona.class);
+            while (objects.hasNext()) {
+                odb.delete(objects.next());
+            }
+        } finally {
+            if (odb != null) {
+                odb.close();
+            }
+        }
+    }
+
     public static void main(String[] args) {
+
+        borrarBaseDatosActual();
 
         // LINEA DE CONEXION CON LA BASE DE DATOS
         ODB odb = ODBFactory.open(ODB_NAME);
